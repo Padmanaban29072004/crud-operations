@@ -1,0 +1,71 @@
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+          <h4 class="mb-0">Student List</h4>
+          <button class="btn btn-light" routerLink="/add">
+            <i class="fas fa-plus"></i> Add New Student
+          </button>
+        </div>
+        <div class="card-body">
+          <!-- Loading Spinner -->
+          <div *ngIf="loading" class="text-center my-4">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+
+          <!-- Error Message -->
+          <div *ngIf="error" class="alert alert-danger">
+            {{ error }}
+          </div>
+
+          <!-- Student Table -->
+          <div class="table-responsive" *ngIf="!loading && students.length > 0">
+            <table class="table table-striped table-hover">
+              <thead class="table-light">
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Age</th>
+                  <th>Created At</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let student of students">
+                  <td>{{ student.id }}</td>
+                  <td>{{ student.name }}</td>
+                  <td>{{ student.email }}</td>
+                  <td>{{ student.phone || 'N/A' }}</td>
+                  <td>{{ student.age }}</td>
+                  <td>{{ student.created_at | date:'medium' }}</td>
+                  <td>
+                    <div class="btn-group" role="group">
+                      <button class="btn btn-sm btn-primary me-2" (click)="editStudent(student.id!)">
+                        <i class="fas fa-edit"></i> Edit
+                      </button>
+                      <button class="btn btn-sm btn-danger" (click)="deleteStudent(student.id!)">
+                        <i class="fas fa-trash"></i> Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- No Students Message -->
+          <div *ngIf="!loading && students.length === 0" class="text-center my-4">
+            <div class="alert alert-info">
+              No students found. Click "Add New Student" to create one.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
